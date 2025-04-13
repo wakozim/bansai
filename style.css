@@ -2,6 +2,10 @@ body {
     background: #202020;
 }
 
+.blocks {
+    perspective: 500px;
+}
+
 .center {
     position: absolute;
     top: 50%;
@@ -30,15 +34,29 @@ body {
     justify-content: center;
 }
 
+.blocks-column::after {
+    width: 84px;
+    height: 84px;
+    content: none;
+    position: absolute;
+}
+
 .block {
     width: 84px;
     height: 84px;
 }
 
-.blocks-column:hover .block { 
-    background-color: black;
-    border: solid 4px black;
-    box-sizing: border-box;
+
+.blocks-column:hover::after {
+    background-color: red;
+    opacity: 50%;
+    content: '';
+}
+
+.blocks-column:hover .banner { 
+    content: '';
+    background-color: red;
+    opacity: 50%;
     z-index: 100000;
 }
 
@@ -49,8 +67,20 @@ body {
     position: absolute;
     background-color: rgb(133, 34, 28);
     pointer-events: none;
+    transform-style: preserve-3d;
+    animation: wind 10s linear infinite;
+    backface-visibility: hidden;
+    transform-origin: top center;
+
 }
 
+@keyframes wind {
+    0%   { transform: rotateX(0deg); }
+    25%  { transform: rotateX(15deg); }
+    50%  { transform: rotateX(0deg); }
+    75%  { transform: rotateX(-15deg); }
+    100% { transform: rotateX(0deg); }
+}
 
 .banner-shadow {
     position: relative;
@@ -67,4 +97,15 @@ body {
     background: url('./banners.png');
     background-position-x: 0%;
     background-position-y: 0%;
+}
+
+.banner-controls {
+    color: white;
+}
+
+.selected::after {
+    content: '';
+    background: green;
+    z-index: 1000000;
+    opacity: 50%;
 }
