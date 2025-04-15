@@ -44,8 +44,6 @@ const PatternColor = createEnum(
 );
 
 
-let z_index = 1000;
-
 class Banner {
     #reset() {
         this.patterns = [];
@@ -54,7 +52,7 @@ class Banner {
 
     constructor(color) {
         this.#reset();
-        this.color = color;;
+        this.color = color;
     }
 
     addPattern(type, color) {
@@ -75,7 +73,7 @@ class Banner {
 
         const banner = Object.assign(document.createElement('div'), {
             'className': 'banner',
-            'style': `background-color: ${this.color}; z-index: ${z_index}; animation-delay: ${delay}s`,
+            'style': `background-color: ${this.color}; z-index: ${1000 - y}; animation-delay: ${delay}s`,
         });
 
         let parentElement = banner;
@@ -103,7 +101,9 @@ class Block {
     }
 
     addBanner(color = undefined) {
-       this.banner = new Banner(color);
+        if (this.banner) return;
+        this.banner = new Banner(color);
+        this.update();
     }
 
     asHtml() {
@@ -134,7 +134,6 @@ class Block {
 class Board {
     #reset() {
         this.id = 0;
-        this.z_index = 0;
         this.rows = 0;
         this.cols = 0;
         this.blocks = [];
@@ -144,7 +143,6 @@ class Board {
     constructor(rows, cols) {
         this.#reset();
 
-        this.z_index = 100_000;
         this.selectedBlock = 0;
         this.rows = rows;
         this.cols = cols;
@@ -224,9 +222,7 @@ class Board {
                     if (block.selected === false) return;
 
                     document.getElementById("add-banner").onclick = () => {
-                        if (block.banner !== null) return;
-                        block.banner = new Banner();
-                        block.update();
+                        block.addBanner()
                     };
                     document.getElementById("remove-banner").onclick = () => {
                         block.banner = null;
@@ -289,63 +285,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     board.update();
-    return;
-
-
-    let blocks_row = Object.assign(document.createElement('div'), {
-        'className': 'blocks-row',
-    });
-
-    let i = 0;
-    addBanner(blocks_row, i++);
-    addBanner(blocks_row, i++);
-    addBanner(blocks_row, i++);
-
-    blocks.appendChild(blocks_row);
-    z_index--;
-
-    blocks_row = Object.assign(document.createElement('div'), {
-        'className': 'blocks-row',
-    });
-
-    addBanner(blocks_row, i++);
-    addBanner(blocks_row, i++);
-    addBanner(blocks_row, i++);
-
-    blocks.appendChild(blocks_row);
-
-    return;
-
-
-    blocks.appendChild(blocks_row);
-    z_index--;
-
-    blocks_row = Object.assign(document.createElement('div'), {
-        'className': 'blocks-row',
-    });
-    addBanner(blocks_row);
-    addBanner(blocks_row);
-    addBanner(blocks_row);
-
-    blocks.appendChild(blocks_row);
 });
-
-function addBanner(blocks_row, i) {
-    const banner = new Banner('#7a201b');
-    banner.addPattern(PatternType.baseSinisterCanton, PatternColor.white);
-    //banner.addPattern(PatternType.baseDexterCanton, PatternColor.white);
-    banner.addPattern(PatternType.roundel, PatternColor.yellow);
-
-    const blocks_column = Object.assign(document.createElement('div'), {
-        'className': 'blocks-column',
-    });
-    blocks_row.appendChild(blocks_column);
-
-    const stone = Object.assign(document.createElement('img'), {
-        'src': './stone.png',
-        'className': 'block',
-    });
-    blocks_column.appendChild(stone);
-
-    blocks_column.appendChild(banner.asHtml(i/3, i%3));
-}
