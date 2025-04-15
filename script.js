@@ -4,6 +4,7 @@ function createEnum(keys) {
         enumObj[key] = index;
         enumObj[index] = key;
     });
+    enumObj.names = keys;
     return enumObj;
 }
 
@@ -102,7 +103,7 @@ class Block {
     }
 
     addBanner(color = undefined) {
-       this.banner = new Banner(color); 
+       this.banner = new Banner(color);
     }
 
     asHtml() {
@@ -110,7 +111,7 @@ class Block {
             'className': 'blocks-column',
             'id': this.id,
         });
-        if (this.selected) blocksColumn.classList.toggle('selected'); 
+        if (this.selected) blocksColumn.classList.toggle('selected');
 
         const stone = Object.assign(document.createElement('img'), {
             'src': './stone.png',
@@ -123,7 +124,6 @@ class Block {
     }
 
     update() {
-        console.log('test');
         const oldBlocksColumn = document.getElementById(this.id);
         const parentDiv = document.getElementById(this.id).parentElement;
         parentDiv.replaceChild(this.asHtml(), oldBlocksColumn);
@@ -144,6 +144,7 @@ class Board {
     constructor(rows, cols) {
         this.#reset();
 
+        this.z_index = 100_000;
         this.selectedBlock = 0;
         this.rows = rows;
         this.cols = cols;
@@ -184,7 +185,7 @@ class Board {
             this.blocks[y].push(new Block(this.cols, y, this.id++));
         }
         this.cols += 1;
-        
+
         this.update();
     }
 
@@ -212,14 +213,14 @@ class Board {
             });
             for (let x = 0; x < this.cols; ++x) {
                 const block = this.blocks[y][x];
-                block.selected = this.selectedBlock === block; 
+                block.selected = this.selectedBlock === block;
                 let blocksColumn = block.asHtml();
                 blocksColumn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
+
                     this.selectedBlock = block;
                     this.update();
-                    
+
                     if (block.selected === false) return;
 
                     document.getElementById("add-banner").onclick = () => {
@@ -232,11 +233,29 @@ class Board {
                         block.update();
                     };
 
+                    for (name of PatternType.names) {
+                        const button = document.getElementById(name);
+                        if (button) {
+                            const pattern = name;
+                            button.onclick = () => {
+                                if (block.banner === null) return;
+                                block.banner.addPattern(PatternType[pattern], PatternColor.yellow);
+                                this.update();
+                            };
+                        }
+                    }
                 });
                 blocksRow.appendChild(blocksColumn);
             }
             board.push(blocksRow);
         }
+        window.oncontextmenu = (e) => {
+            e.preventDefault();
+            this.selectedBlock = null;
+            document.getElementById("add-banner").onclick = null;
+            document.getElementById("remove-banner").onclick = null;
+            this.update();
+        };
         return board;
     }
 }
@@ -264,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("add-column").addEventListener("click", () => {
         board.addColumn();
     });
-    
+
     document.getElementById("remove-column").addEventListener("click", () => {
         board.removeColumn();
     });

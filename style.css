@@ -53,7 +53,7 @@ body {
     content: '';
 }
 
-.blocks-column:hover .banner { 
+.blocks-column:hover .banner {
     content: '';
     background-color: red;
     opacity: 50%;
@@ -101,6 +101,8 @@ body {
 
 .banner-controls {
     color: white;
+    position: fixed;
+    z-index: 10000;
 }
 
 .selected::after {
