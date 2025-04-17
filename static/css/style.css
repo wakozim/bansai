@@ -1,3 +1,8 @@
+:root {
+    --red: red;
+    --green: green;
+}
+
 body {
     background: #202020;
 }
@@ -115,32 +120,45 @@ body {
 
 .patterns {
     display: flex;
-    #flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
+    margin: 0px;
+    justify-content: center;
 }
 
 .pattern-button {
-    width: 80px;
-    height: 156px;
-    transform: scale(0.5);
+    width: 40px;
+    height: 78px;
     background: url('../images/banner-shadow.png');
     background-color: rgb(189, 193, 193);
-    position: relative;
     cursor: pointer;
+    margin: 10px 2px;
+    position: relative;
 }
 
-.pattern-button:hover {
-    background: red;
+.select::after,
+.pattern-button:hover::after {
+    content: '';
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    box-sizing: border-box;
+    top: 0px;
+    left: 0px;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.pattern-button:hover::after {
+    border-color: var(--red);
+}
+
+.select::after {
+    border-color: var(--green);
 }
 
 .pattern {
-    position: absolute;
-    width: 80px;
-    height: 156px;
+    width: 40px;
+    height: 78px;
     background: url('../images/banners.png');
-    background-position-x: 0%;
-    background-position-y: 0%;
+    background-size: 1682px 1248px;
 }

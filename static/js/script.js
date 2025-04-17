@@ -310,8 +310,8 @@ document.addEventListener("DOMContentLoaded", () => {
             'id': name,
             'className': 'pattern-button',
         });
-        const x = (PatternType[name] + 1) * -80;
-        const y = Color.black * -156;
+        const x = (PatternType[name] + 1) * -40;
+        const y = Color.black * -78;
         const pattern = Object.assign(document.createElement('div'), {
             'className': 'pattern',
             'style': `background-position: ${x}px ${y}px`,
