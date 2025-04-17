@@ -37,11 +37,30 @@ class Pattern {
 }
 
 const PatternType = createEnum(
-    ['roundel', 'baseDexterCanton', 'baseSinisterCanton', 'chiefDexterCanton', 'chiefSinisterCanton', 'perFess', ]
+    ['roundel', 'baseDexterCanton', 'baseSinisterCanton', 'chiefDexterCanton', 'chiefSinisterCanton', 'perFess', 'base', 'chief', 'perPale', 'paleDexter', 'pale', 'paleSinister', 'fess', 'cross', 'bendSinister', 'bend', 'saltire', 'perBendSinister', 'perBend', 'invertedChevron', 'chevron', 'lozenge', 'chiefIndented', 'baseIndented', 'bordureIndented', 'bordure', 'paly', 'fieldMasoned', 'gradient', 'creeperCharge', 'skullCharge', 'flowerCharge', 'thing', 'perBendInverted', 'perBendSinisterInverted', 'baseGradient', 'perFessInverted', 'perPaleInverted', 'globe', 'snout']
 );
-const PatternColor = createEnum(
-    ['white', 'orange', 'purple', 'lightBlue', 'yellow']
+const Color = createEnum(
+    ['white', 'orange', 'magenta', 'lightBlue', 'yellow', 'lime', 'pink', 'gray', 'lightGray', 'cyan', 'purple', 'blue', 'brown', 'green', 'red', 'black']
 );
+
+const BannerColor = {
+    [Color.white]: 'rgb()',
+    [Color.orange]: 'rgb()',
+    [Color.magenta]: 'rgb()',
+    [Color.lightBlue]: 'rgb()',
+    [Color.yellow]: 'rgb()',
+    [Color.lime]: 'rgb()',
+    [Color.pink]: 'rgb()',
+    [Color.gray]: 'rgb()',
+    [Color.lightGray]: 'rgb()',
+    [Color.cyan]: 'rgb()',
+    [Color.purple]: 'rgb()',
+    [Color.blue]: 'rgb()',
+    [Color.brown]: 'rgb()',
+    [Color.green]: 'rgb()',
+    [Color.red]: 'rgb()',
+    [Color.black]: 'rgb()',
+};
 
 
 class Banner {
@@ -114,7 +133,7 @@ class Block {
         if (this.selected) blocksColumn.classList.toggle('selected');
 
         const stone = Object.assign(document.createElement('img'), {
-            'src': './stone.png',
+            'src': './static/images/stone.png',
             'className': 'block',
         });
         blocksColumn.appendChild(stone);
@@ -235,7 +254,7 @@ class Board {
                             const pattern = name;
                             button.onclick = () => {
                                 if (block.banner === null) return;
-                                block.banner.addPattern(PatternType[pattern], PatternColor.yellow);
+                                block.banner.addPattern(PatternType[pattern], Color.yellow);
                                 this.update();
                             };
                         }
@@ -246,6 +265,7 @@ class Board {
             board.push(blocksRow);
         }
         window.oncontextmenu = (e) => {
+            if (!this.selectedBlock) return;
             e.preventDefault();
             this.selectedBlock = null;
             document.getElementById("add-banner").onclick = null;
@@ -283,6 +303,25 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("remove-column").addEventListener("click", () => {
         board.removeColumn();
     });
+
+    const patterns_buttons = document.getElementById("patterns");
+    for (name of PatternType.names) {
+        const parentDiv = Object.assign(document.createElement('div'), {
+            'className': 'column',
+        }); 
+        const pattern = new Pattern(PatternType[name], Color.yellow);
+        const div = pattern.asHtml(); 
+        /*
+        */
+        const button = Object.assign(document.createElement('button'), {
+            'id': name,
+            'innerText': name,
+        });
+        div.appendChild(button);
+        parentDiv.appendChild(div);
+        patterns.appendChild(parentDiv);
+    }
+
 
     board.update();
 });

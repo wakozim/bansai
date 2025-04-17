@@ -3,7 +3,7 @@
     <head>
         <title>Minecraft Banner Editor</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="./static/css/style.css">
     </head>
     <body>
         <div class="center" id="center">
@@ -16,17 +16,12 @@
             <button id="remove-column">Remove column</button>
             <button id="add-row">Add row</button>
             <button id="remove-row">Remove row</button>
-            <p id="selectedBanner">0</p>
-            <div class="banner-controls">
-                <button id="add-banner">Add Banner</button>
-                <button id="remove-banner">Remove Banner</button>
-                <div>
-                    <button id="roundel">Roundel Pattern</button>
-                    <button id="baseDexterCanton">Base Dexter Canton</button>
-                    <button id="baseSinisterCanton">Base Sinister Canton</button>
-                </div>
-            </div>
         </div>
-        <script src="./script.js"></script>
+        <div class="banner-controls">
+            <button id="add-banner">Add Banner</button>
+            <button id="remove-banner">Remove Banner</button>
+            <div id="patterns"></div>
+        </div>
+        <script src="./static/js/script.js"></script>
     </body>
 </html>
