@@ -306,20 +306,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const patterns_buttons = document.getElementById("patterns");
     for (name of PatternType.names) {
-        const parentDiv = Object.assign(document.createElement('div'), {
-            'className': 'column',
-        }); 
-        const pattern = new Pattern(PatternType[name], Color.black);
-        const div = pattern.asHtml(); 
-        /*
-        */
-        const button = Object.assign(document.createElement('button'), {
+        const button = Object.assign(document.createElement('div'), {
             'id': name,
-            'innerText': name,
+            'className': 'pattern-button',
         });
-        div.appendChild(button);
-        parentDiv.appendChild(div);
-        patterns.appendChild(parentDiv);
+        const x = (PatternType[name] + 1) * -80;
+        const y = Color.black * -156;
+        const pattern = Object.assign(document.createElement('div'), {
+            'className': 'pattern',
+            'style': `background-position: ${x}px ${y}px`,
+        });
+        button.appendChild(pattern);
+        patterns_buttons.appendChild(button);
     }
 
 
