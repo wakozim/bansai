@@ -44,22 +44,22 @@ const Color = createEnum(
 );
 
 const BannerColor = {
-    [Color.white]: 'rgb()',
-    [Color.orange]: 'rgb()',
-    [Color.magenta]: 'rgb()',
-    [Color.lightBlue]: 'rgb()',
-    [Color.yellow]: 'rgb()',
-    [Color.lime]: 'rgb()',
-    [Color.pink]: 'rgb()',
-    [Color.gray]: 'rgb()',
-    [Color.lightGray]: 'rgb()',
-    [Color.cyan]: 'rgb()',
-    [Color.purple]: 'rgb()',
-    [Color.blue]: 'rgb()',
-    [Color.brown]: 'rgb()',
-    [Color.green]: 'rgb()',
-    [Color.red]: 'rgb()',
-    [Color.black]: 'rgb()',
+    [Color.white]: 'rgb(189, 193, 193)',
+    [Color.orange]: 'rgb(189, 97, 21)',
+    [Color.magenta]: 'rgb(151, 58, 143)',
+    [Color.lightBlue]: 'rgb(43, 136, 165)',
+    [Color.yellow]: 'rgb(192, 163, 45)',
+    [Color.lime]: 'rgb(97, 150, 21)',
+    [Color.pink]: 'rgb(183, 105, 128)',
+    [Color.gray]: 'rgb(53, 60, 62)',
+    [Color.lightGray]: 'rgb(118, 118, 114)',
+    [Color.cyan]: 'rgb(15, 118, 118)',
+    [Color.purple]: 'rgb(104, 37, 139)',
+    [Color.blue]: 'rgb(44, 50, 129)',
+    [Color.brown]: 'rgb(99, 63, 37)',
+    [Color.green]: 'rgb(71, 94, 15)',
+    [Color.red]: 'rgb(133, 34, 28)',
+    [Color.black]: 'rgb(21, 21, 23)',
 };
 
 
@@ -241,7 +241,7 @@ class Board {
                     if (block.selected === false) return;
 
                     document.getElementById("add-banner").onclick = () => {
-                        block.addBanner()
+                        block.addBanner(BannerColor[Color.white])
                     };
                     document.getElementById("remove-banner").onclick = () => {
                         block.banner = null;
@@ -254,7 +254,7 @@ class Board {
                             const pattern = name;
                             button.onclick = () => {
                                 if (block.banner === null) return;
-                                block.banner.addPattern(PatternType[pattern], Color.yellow);
+                                block.banner.addPattern(PatternType[pattern], Color.black);
                                 this.update();
                             };
                         }
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const parentDiv = Object.assign(document.createElement('div'), {
             'className': 'column',
         }); 
-        const pattern = new Pattern(PatternType[name], Color.yellow);
+        const pattern = new Pattern(PatternType[name], Color.black);
         const div = pattern.asHtml(); 
         /*
         */
