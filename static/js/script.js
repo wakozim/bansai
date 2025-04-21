@@ -157,23 +157,126 @@ class Board {
         this.cols = 0;
         this.blocks = [];
         this.selectedBlock = null;
+        this.selectedPattern = null;
+        this.bannerPlacing = false;
+        this.selectedColor = null;
     }
 
     constructor(rows, cols) {
-        this.#reset();
+        this.#reset(); 
 
-        this.selectedBlock = 0;
         this.rows = rows;
         this.cols = cols;
-        this.blocks = [];
-        this.selectedBlock = null;
+    }
 
+    start() {
         for (let y = 0; y < this.rows; ++y) {
             const row = new Array();
             for (let x = 0; x < this.cols; ++x) {
                 row.push(new Block(x, y, this.id++));
             }
             this.blocks.push(row);
+        }
+
+        this.createPatternButtons();  
+        this.createColorButtons();
+    }
+
+    createPatternButtons() {
+        const patterns_buttons = document.getElementById("patterns");
+        {
+            const button = Object.assign(document.createElement('div'), {
+                'id': 'bannerBase',
+                'className': 'pattern-button',
+                'onclick': () => {
+                    if (this.selectedPattern) {
+                        this.selectedPattern.classList.remove('select');
+                        this.selectedPattern = null;
+                    } 
+                    this.bannerPlacing = !this.bannerPlacing;
+                    button.classList.toggle('select'); 
+                    this.selectedPattern = this.bannerPlacing ? button : null;
+                },
+            });
+            const shadow = Object.assign(document.createElement('div'), {
+                'className': 'pattern-shadow',
+            });
+            button.appendChild(shadow);
+            patterns_buttons.appendChild(button);
+        }
+
+        for (let type of PatternType.names) {
+            const button = Object.assign(document.createElement('div'), {
+                'id': type,
+                'className': 'pattern-button',
+                'onclick': () => {
+                    this.bannerPlacing = false;
+                    if (this.selectedPattern == button) {
+                        this.selectedPattern.classList.remove('select');
+                        this.selectedPattern = null;
+                    } else {
+                        if (this.selectedPattern !== null) {
+                            this.selectedPattern.classList.remove('select');
+                        }
+                        button.classList.add('select');
+                        this.selectedPattern = button;
+                    }
+                },
+            });
+            const x = (PatternType[type] + 1) * -40;
+            const y = Color.black * -78;
+            const pattern = Object.assign(document.createElement('div'), {
+                'className': 'pattern',
+                'style': `background-position: ${x}px ${y}px`,
+            });
+            const shadow = Object.assign(document.createElement('div'), {
+                'className': 'pattern-shadow',
+            });
+            pattern.appendChild(shadow);
+            button.appendChild(pattern);
+            patterns_buttons.appendChild(button);
+        }
+    }
+
+    createColorButtons() {
+        const colors_buttons = document.getElementById("colors");
+        for (let color of Color.names) {
+            const button = Object.assign(document.createElement('div'), {
+                'id': color,
+                'className': 'color-button',
+                'onclick': () => {
+                    if (this.selectedColor === button) return;
+                    if (this.selectedColor !== null) {
+                        this.selectedColor.classList.remove('select');
+                        this.selectedColor = null;
+                    }
+                    this.selectedColor = button;
+                    button.classList.add('select');
+
+                    const patternButtons = document.getElementById("patterns");
+                    for (let patternButton of patternButtons.children) {
+                        if (patternButton.id == 'bannerBase') {
+                            patternButton.style = `background-color: ${BannerColor[Color[color]]}`;
+                            continue;
+                        }
+                        const pattern = patternButton.querySelector('.pattern');
+                        const x = (PatternType[patternButton.id] + 1) * -40;
+                        const y = Color[color] * -78;
+                        pattern.style = `background-position: ${x}px ${y}px`
+                    }
+                },
+            });
+            const x = Color[color] * -32;
+            const dye = Object.assign(document.createElement('img'), {
+                'className': 'color',
+                'src': './static/images/pixel.png',
+                'width': 32,
+                'height': 32,
+                'style': `background-position: ${x}px 0px`,
+                'className': 'tooltip',
+            });
+            button.appendChild(dye);
+            colors_buttons.appendChild(button); 
         }
     }
 
@@ -234,9 +337,18 @@ class Board {
                 let blocksColumn = block.asHtml();
                 blocksColumn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    
+                    if (this.bannerPlacing) {
+                        block.banner =  new Banner(BannerColor[Color[this.selectedColor.id]]);
+                    }
+
+                    if (this.selectedPattern !== null) {
+                        block.banner.addPattern(PatternType[this.selectedPattern.id], Color[this.selectedColor.id]);
+                    }
+                    this.update();
+                    return;
 
                     this.selectedBlock = block;
-                    this.update();
 
                     if (block.selected === false) return;
 
@@ -247,18 +359,6 @@ class Board {
                         block.banner = null;
                         block.update();
                     };
-
-                    for (name of PatternType.names) {
-                        const button = document.getElementById(name);
-                        if (button) {
-                            const pattern = name;
-                            button.onclick = () => {
-                                if (block.banner === null) return;
-                                block.banner.addPattern(PatternType[pattern], Color.black);
-                                this.update();
-                            };
-                        }
-                    }
                 });
                 blocksRow.appendChild(blocksColumn);
             }
@@ -276,11 +376,12 @@ class Board {
     }
 }
 
-const board = new Board(3, 3);
-
+let board = null;
 document.addEventListener("DOMContentLoaded", () => {
+    board = new Board(3, 3);
     const blocks = document.getElementById('blocks');
     board.blocksDiv = blocks;
+    board.start();
 
     if (!blocks) {
         throw new Error('Can\'t get element `blocks`. Try to reload the page!');
@@ -303,23 +404,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("remove-column").addEventListener("click", () => {
         board.removeColumn();
     });
-
-    const patterns_buttons = document.getElementById("patterns");
-    for (name of PatternType.names) {
-        const button = Object.assign(document.createElement('div'), {
-            'id': name,
-            'className': 'pattern-button',
-        });
-        const x = (PatternType[name] + 1) * -40;
-        const y = Color.black * -78;
-        const pattern = Object.assign(document.createElement('div'), {
-            'className': 'pattern',
-            'style': `background-position: ${x}px ${y}px`,
-        });
-        button.appendChild(pattern);
-        patterns_buttons.appendChild(button);
-    }
-
 
     board.update();
 });

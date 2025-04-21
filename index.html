@@ -6,24 +6,33 @@
         <link rel="stylesheet" href="./static/css/reset.css">
         <link rel="stylesheet" href="./static/css/style.css">
         <script src="./static/js/script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <main class="bansai">
-            <div class="patterns" id="patterns">
+            <div class="colors" id="colors">
+                <!--<div style="background: red;">
+                <img src="./static/images/pixel.png" width="32" height="32" class="tooltip" style="background-position: -480px -320px;" alt="Black Dye<br>">
+                </div>-->
             </div>
+            
+            <div class="main"> 
+                <div class="patterns" id="patterns">
+                </div>
 
-            <div class="blocks" id="blocks">
+                <div class="blocks" id="blocks">
+                </div>
+
+                <div class="control-panel">
+                    <button id="change-size">Change size</button>
+                    <button id="add-column">Add column</button>
+                    <button id="remove-column">Remove column</button>
+                    <button id="add-row">Add row</button>
+                    <button id="remove-row">Remove row</button>
+                    <button id="add-banner">Add Banner</button>
+                    <button id="remove-banner">Remove Banner</button>
+                </div>
             </div>
-
-            <div class="control-panel">
-                <button id="change-size">Change size</button>
-                <button id="add-column">Add column</button>
-                <button id="remove-column">Remove column</button>
-                <button id="add-row">Add row</button>
-                <button id="remove-row">Remove row</button>
-                <button id="add-banner">Add Banner</button>
-                <button id="remove-banner">Remove Banner</button>
-            <div>
         </main>
     </body>
 </html>
