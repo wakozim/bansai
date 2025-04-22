@@ -10,7 +10,7 @@ body {
 .blocks {
     perspective: 500px;
     flex: 1;
-    background-color: #ffffff;
+    background-color: #202020;
     padding: 1rem;
     overflow: auto;
 }
@@ -107,7 +107,7 @@ body {
 
 .patterns {
     flex: 0 0 auto;
-    background-color: #e0e0e0;
+    background-color: #202020;
     padding: 1rem;
     flex-direction: row;
     display: flex;
@@ -117,7 +117,7 @@ body {
 
 .control-panel {
     flex: 0 0 15%;
-    background-color: #e0e0e0;
+    background-color: #202020;
     padding: 1rem;
     border-top: solid 3px black;
 }
@@ -180,7 +180,7 @@ body {
 
 .colors {
     flex: 0 0 15%;
-    background-color: #f0f0f0;
+    background-color: #202020;
     border-right: 3px solid black;
     padding: 1rem;
     display: flex;
