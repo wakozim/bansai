@@ -243,7 +243,7 @@ class Board {
         for (let color of Color.names) {
             const button = Object.assign(document.createElement('div'), {
                 'id': color,
-                'className': 'color-button',
+                'className': `color-button ${color}`,
                 'onclick': () => {
                     if (this.selectedColor === button) return;
                     if (this.selectedColor !== null) {

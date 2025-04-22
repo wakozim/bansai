@@ -179,8 +179,9 @@ body {
 }
 
 .colors {
-    flex: 0 0 15%;
-    background-color: #202020;
+    flex: 0 0 5%;
+    align-items: center;
+    background-color: #333333;
     border-right: 3px solid black;
     padding: 1rem;
     display: flex;
@@ -189,12 +190,35 @@ body {
 }
 
 .color-button {
-    width: 32px;
-    height: 32px;
+    background: black;
+    border-radius: 20%;
+    padding: 4px;
+    width: 40px;
+    height: 40px;
     display: flex;
     cursor: pointer;
     position: relative;
-    margin: 3px;
+    margin: 5px;
+}
+
+.color-button.select::after {
+    border-color: red;
+    border-radius: 20%;
+    border-width: 3px;
+}
+
+.color-button:hover::after {
+    border: solid 3px red;
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 20%;
+    box-sizing: border-box;
+    display: flex;
+
 }
 
 .color {
@@ -240,13 +264,77 @@ body {
 
 
 * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    body, html {
-      height: 100%;
-      width: 100%;
-      font-family: sans-serif;
-    }
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+}
+
+.white {
+    background-color: rgb(189, 193, 193);
+}
+
+.orange {
+    background-color: rgb(189, 97, 21);
+}
+
+.magenta {
+    background-color: rgb(151, 58, 143);
+}
+
+.lightBlue {
+    background-color: rgb(43, 136, 165);
+}
+
+.yellow {
+    background-color: rgb(192, 163, 45);
+}
+
+.lime {
+    background-color: rgb(97, 150, 21);
+}
+
+.pink {
+    background-color: rgb(183, 105, 128);
+}
+
+.gray {
+    background-color: rgb(53, 60, 62);
+}
+
+.lightGray {
+    background-color: rgb(118, 118, 114);
+}
+
+.cyan {
+    background-color: rgb(15, 118, 118);
+}
+
+.purple {
+    background-color: rgb(104, 37, 139);
+}
+
+.blue {
+    background-color: rgb(44, 50, 129);
+}
+
+.brown {
+    background-color: rgb(99, 63, 37);
+}
+
+.green {
+    background-color: rgb(71, 94, 15);
+}
+
+.red {
+    background-color: rgb(133, 34, 28);
+}
+
+.black {
+    background-color: rgb(21, 21, 23);
+}
