@@ -22,7 +22,7 @@ class Pattern {
     }
 
     getCords() {
-        const x = (this.type + 1) * -80;
+        const x = this.type * -80;
         const y = this.color * -156;
         return {'x': x, 'y': y};
     }
@@ -37,7 +37,7 @@ class Pattern {
 }
 
 const PatternType = createEnum(
-    ['roundel', 'baseDexterCanton', 'baseSinisterCanton', 'chiefDexterCanton', 'chiefSinisterCanton', 'perFess', 'base', 'chief', 'perPale', 'paleDexter', 'pale', 'paleSinister', 'fess', 'cross', 'bendSinister', 'bend', 'saltire', 'perBendSinister', 'perBend', 'invertedChevron', 'chevron', 'lozenge', 'chiefIndented', 'baseIndented', 'bordureIndented', 'bordure', 'paly', 'fieldMasoned', 'gradient', 'creeperCharge', 'skullCharge', 'flowerCharge', 'thing', 'perBendInverted', 'perBendSinisterInverted', 'baseGradient', 'perFessInverted', 'perPaleInverted', 'globe', 'snout']
+    ['bannerBase', 'roundel', 'baseDexterCanton', 'baseSinisterCanton', 'chiefDexterCanton', 'chiefSinisterCanton', 'perFess', 'base', 'chief', 'perPale', 'paleDexter', 'pale', 'paleSinister', 'fess', 'cross', 'bendSinister', 'bend', 'saltire', 'perBendSinister', 'perBend', 'invertedChevron', 'chevron', 'lozenge', 'chiefIndented', 'baseIndented', 'bordureIndented', 'bordure', 'paly', 'fieldMasoned', 'gradient', 'creeperCharge', 'skullCharge', 'flowerCharge', 'thing', 'perBendInverted', 'perBendSinisterInverted', 'baseGradient', 'perFessInverted', 'perPaleInverted', 'globe', 'snout']
 );
 const Color = createEnum(
     ['white', 'orange', 'magenta', 'lightBlue', 'yellow', 'lime', 'pink', 'gray', 'lightGray', 'cyan', 'purple', 'blue', 'brown', 'green', 'red', 'black']
@@ -160,10 +160,11 @@ class Board {
         this.selectedPattern = null;
         this.bannerPlacing = false;
         this.selectedColor = null;
+        this.gui = {};
     }
 
     constructor(rows, cols) {
-        this.#reset(); 
+        this.#reset();
 
         this.rows = rows;
         this.cols = cols;
@@ -178,62 +179,48 @@ class Board {
             this.blocks.push(row);
         }
 
-        this.createPatternButtons();  
+        this.createPatternButtons();
         this.createColorButtons();
     }
 
-    createPatternButtons() {
-        const patterns_buttons = document.getElementById("patterns");
-        {
-            const button = Object.assign(document.createElement('div'), {
-                'id': 'bannerBase',
-                'className': 'pattern-button',
-                'onclick': () => {
-                    if (this.selectedPattern) {
-                        this.selectedPattern.classList.remove('select');
-                        this.selectedPattern = null;
-                    } 
-                    this.bannerPlacing = !this.bannerPlacing;
-                    button.classList.toggle('select'); 
-                    this.selectedPattern = this.bannerPlacing ? button : null;
-                },
-            });
-            const shadow = Object.assign(document.createElement('div'), {
-                'className': 'pattern-shadow',
-            });
-            button.appendChild(shadow);
-            patterns_buttons.appendChild(button);
-        }
-
-        for (let type of PatternType.names) {
-            const button = Object.assign(document.createElement('div'), {
-                'id': type,
-                'className': 'pattern-button',
-                'onclick': () => {
+    createPatternButton(type) {
+        const button = Object.assign(document.createElement('div'), {
+            'id': type,
+            'className': 'pattern-button',
+            'onclick': () => {
+                if (this.selectedPattern) {
+                    this.selectedPattern.classList.remove('select');
+                    this.selectedPattern = null;
                     this.bannerPlacing = false;
-                    if (this.selectedPattern == button) {
-                        this.selectedPattern.classList.remove('select');
-                        this.selectedPattern = null;
-                    } else {
-                        if (this.selectedPattern !== null) {
-                            this.selectedPattern.classList.remove('select');
-                        }
-                        button.classList.add('select');
-                        this.selectedPattern = button;
-                    }
-                },
-            });
-            const x = (PatternType[type] + 1) * -40;
-            const y = Color.black * -78;
-            const pattern = Object.assign(document.createElement('div'), {
-                'className': 'pattern',
-                'style': `background-position: ${x}px ${y}px`,
-            });
-            const shadow = Object.assign(document.createElement('div'), {
-                'className': 'pattern-shadow',
-            });
-            pattern.appendChild(shadow);
-            button.appendChild(pattern);
+                }
+                this.bannerPlacing = button.id === 'bannerBase';
+                button.classList.add('select');
+                this.selectedPattern = button;
+            },
+        });
+        const x = PatternType[type] * -40;
+        const y = Color.black * -78;
+        const pattern = Object.assign(document.createElement('div'), {
+            'className': 'pattern',
+            'style': `background-position: ${x}px ${y}px`,
+        });
+        const shadow = Object.assign(document.createElement('div'), {
+            'className': 'pattern-shadow',
+        });
+        pattern.appendChild(shadow);
+        button.appendChild(pattern);
+        return button;
+    }
+
+    createPatternButtons() {
+        this.gui.patterns = [];
+        const patterns_buttons = document.getElementById("patterns");
+        for (let type of PatternType.names) {
+            const button = this.createPatternButton(type);
+            if (type === 'bannerBase') {
+                button.click();
+            }
+            this.gui.patterns.push(button);
             patterns_buttons.appendChild(button);
         }
     }
@@ -253,14 +240,13 @@ class Board {
                     this.selectedColor = button;
                     button.classList.add('select');
 
-                    const patternButtons = document.getElementById("patterns");
-                    for (let patternButton of patternButtons.children) {
+                    for (let patternButton of this.gui.patterns) {
                         if (patternButton.id == 'bannerBase') {
                             patternButton.style = `background-color: ${BannerColor[Color[color]]}`;
                             continue;
                         }
                         const pattern = patternButton.querySelector('.pattern');
-                        const x = (PatternType[patternButton.id] + 1) * -40;
+                        const x = PatternType[patternButton.id] * -40;
                         const y = Color[color] * -78;
                         pattern.style = `background-position: ${x}px ${y}px`
                     }
@@ -276,7 +262,10 @@ class Board {
                 'className': 'tooltip',
             });
             button.appendChild(dye);
-            colors_buttons.appendChild(button); 
+            if (color === 'black') {
+                button.click();
+            }
+            colors_buttons.appendChild(button);
         }
     }
 
@@ -337,7 +326,7 @@ class Board {
                 let blocksColumn = block.asHtml();
                 blocksColumn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
+
                     if (this.bannerPlacing) {
                         block.banner =  new Banner(BannerColor[Color[this.selectedColor.id]]);
                     }
