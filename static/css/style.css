@@ -109,7 +109,7 @@ body {
 
 .patterns {
     flex: 0 0 auto;
-    background-color: #202020;
+    background-color: #333333;
     padding: 1rem;
     flex-direction: row;
     display: flex;
@@ -130,11 +130,24 @@ body {
 .pattern-button {
     width: 40px;
     height: 78px;
-    background-color: rgb(189, 193, 193);
     cursor: pointer;
     margin: 0px 3px;
     position: relative;
     display: flex;
+}
+
+.pattern-button::after {
+    content: '';
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    box-sizing: border-box;
+    top: 0px;
+    left: 0px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
 }
 
 .select::after,
