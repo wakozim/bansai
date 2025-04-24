@@ -1,3 +1,5 @@
+@import "https://www.nerdfonts.com/assets/css/webfont.css";
+
 :root {
     --red: red;
     --green: green;
@@ -115,11 +117,14 @@ body {
     width: 100%;
 }
 
-.control-panel {
+.controls {
     flex: 0 0 15%;
-    background-color: #202020;
+    background-color: #333333;
     padding: 1rem;
     border-top: solid 3px black;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
 }
 
 .pattern-button {
@@ -337,4 +342,33 @@ body, html {
 
 .black {
     background-color: rgb(21, 21, 23);
+}
+
+.resize-pannel {
+    border: solid 2px black;
+    margin: 0px;
+    padding: 5px;
+    width: max-content;
+    height: max-content;
+    border-radius: 10%;
+}
+
+.resize-row {
+    margin: 0px;
+}
+
+.size-button {
+    width: 25px;
+    height: 25px;
+    color: white;
+    background-color: green;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 20%;
+}
+
+.size-button:hover {
+    background-color: red;
 }
