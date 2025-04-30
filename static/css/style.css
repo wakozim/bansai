@@ -10,12 +10,14 @@ body {
 }
 
 .blocks {
-    perspective: 500px;
-    flex: 1;
-    background-color: #202020;
-    padding: 1rem;
+    flex: 1 1 auto;
     overflow: auto;
+    padding: 2rem;
+    min-height: 0;
+    min-width: 0;
+    background-color: #202020;
 }
+
 
 .blocks-row {
     display: flex;
@@ -109,19 +111,22 @@ body {
 
 .patterns {
     flex: 0 0 auto;
+    flex-shrink: 0;
     background-color: #333333;
     padding: 1rem;
     flex-direction: row;
     display: flex;
     overflow-x: auto;
     width: 100%;
+    border-bottom: solid 10px black;
 }
 
 .controls {
     flex: 0 0 15%;
+    flex-shrink: 0;
     background-color: #333333;
     padding: 1rem;
-    border-top: solid 3px black;
+    border-top: solid 10px black;
     display: flex;
     vertical-align: middle;
     align-items: center;
@@ -187,23 +192,22 @@ body {
     height: 78px;
 }
 
-
 .bansai {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
 }
 
 .colors {
-    flex: 0 0 5%;
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    min-width: 100px;
     align-items: center;
     background-color: #333333;
-    border-right: 3px solid black;
+    border-right: 10px solid black;
     padding: 1rem;
     display: flex;
-    overflow-y: auto;
     flex-direction: column;
 }
 
@@ -260,11 +264,10 @@ body {
     .colors {
         flex: 0 0 auto;
         width: 100%;
-        height: 50px;
         border-right: none;
-        border-bottom: 2px solid black;
+        border-bottom: solid 10px black;
         flex-direction: row;
-        overflow-x: auto;
+        overflow: auto;
     }
 
     .main {
@@ -277,7 +280,8 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0; /* для предотвращения переполнения */
+    min-height: 0;
+    min-width: 0;
 }
 
 
@@ -288,8 +292,8 @@ body {
 }
 
 body, html {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     font-family: sans-serif;
 }
 
