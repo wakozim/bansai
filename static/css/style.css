@@ -3,6 +3,7 @@
 :root {
     --red: red;
     --green: green;
+    --scale: 1.0;
 }
 
 body {
@@ -32,15 +33,15 @@ body {
 }
 
 .blocks-column::after {
-    width: 84px;
-    height: 84px;
+    width: calc(84px * var(--scale));
+    height: calc(84px * var(--scale));
     content: none;
     position: absolute;
 }
 
 .block {
-    width: 84px;
-    height: 84px;
+    width: calc(84px * var(--scale));
+    height: calc(84px * var(--scale));
 }
 
 
@@ -59,8 +60,8 @@ body {
 
 .banner {
     top: 8px;
-    height: 156px;
-    width: 80px;
+    height: calc(156px * var(--scale));
+    width: calc(80px * var(--scale));
     position: absolute;
     background-color: rgb(189, 193, 193);
     pointer-events: none;
@@ -82,16 +83,18 @@ body {
 .banner-shadow {
     position: relative;
     background-image: url('../images/banner-shadow.png');
-    height: 156px;
-    width: 80px;
-    background-position: -160px 0px;
+    height: calc(156px * var(--scale));
+    width: calc(80px * var(--scale));
+    background-size: calc(80px * var(--scale)) calc(156px * var(--scale));
+    background-position: calc(-160px * var(--scale)) 0px;
 }
 
 .layer {
     position: absolute;
-    width: 80px;
-    height: 156px;
+    width: calc(80px * var(--scale));
+    height: calc(156px * var(--scale));
     background: url('../images/banners.png');
+    background-size: calc(3364px * var(--scale)) calc(2496px * var(--scale));
     background-position-x: 0%;
     background-position-y: 0%;
 }
@@ -361,20 +364,28 @@ body, html {
     background-color: rgb(21, 21, 23);
 }
 
-.resize-pannel {
+.resize-panel,
+.scale-panel {
     border: solid 2px black;
     margin: 0px;
     padding: 5px;
     width: max-content;
     height: max-content;
     border-radius: 10%;
+    margin: 5px;
+}
+
+.scale-panel {
+    display: flex;
+    flex-direction: column;
 }
 
 .resize-row {
     margin: 0px;
 }
 
-.size-button {
+.size-button,
+.scale-button {
     width: 25px;
     height: 25px;
     color: white;

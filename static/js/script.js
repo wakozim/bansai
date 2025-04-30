@@ -22,8 +22,9 @@ class Pattern {
     }
 
     getCords() {
-        const x = this.type * -80;
-        const y = this.color * -156;
+        const scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale').trim());
+        const x = this.type * -80 * scale;
+        const y = this.color * -156 * scale;
         return {'x': x, 'y': y};
     }
 
@@ -161,6 +162,7 @@ class Board {
         this.bannerPlacing = false;
         this.selectedColor = null;
         this.gui = {};
+        this.scale = 1;
     }
 
     constructor(rows, cols) {
@@ -309,6 +311,18 @@ class Board {
         this.update();
     }
 
+    scaleUp() {
+        this.scale += 0.1;
+        document.documentElement.style.setProperty('--scale', this.scale);
+        this.update();
+    }
+
+    scaleDown() {
+        this.scale -= 0.1;
+        document.documentElement.style.setProperty('--scale', this.scale);
+        this.update();
+    }
+
     update() {
         this.blocksDiv.replaceChildren();
         this.asHtml().forEach((x) => {this.blocksDiv.appendChild(x)});
@@ -392,6 +406,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("remove-column").addEventListener("click", () => {
         board.removeColumn();
+    });
+
+    document.getElementById("scale-up").addEventListener("click", () => {
+        board.scaleUp();
+    });
+
+    document.getElementById("scale-down").addEventListener("click", () => {
+        board.scaleDown();
     });
 
     board.update();
