@@ -311,14 +311,17 @@ class Board {
         this.update();
     }
 
-    scaleUp() {
-        this.scale += 0.1;
+    scaleUp(e) {
+        const factor = e.shiftKey ? 0.5 : 0.1;
+        this.scale += factor;
         document.documentElement.style.setProperty('--scale', this.scale);
         this.update();
     }
 
-    scaleDown() {
-        this.scale -= 0.1;
+    scaleDown(e) {
+        const factor = e.shiftKey ? 0.5 : 0.1;
+        if (this.scale - factor <= 0.1) return;
+        this.scale -= factor;
         document.documentElement.style.setProperty('--scale', this.scale);
         this.update();
     }
@@ -408,12 +411,12 @@ document.addEventListener("DOMContentLoaded", () => {
         board.removeColumn();
     });
 
-    document.getElementById("scale-up").addEventListener("click", () => {
-        board.scaleUp();
+    document.getElementById("scale-up").addEventListener("click", (e) => {
+        board.scaleUp(e);
     });
 
-    document.getElementById("scale-down").addEventListener("click", () => {
-        board.scaleDown();
+    document.getElementById("scale-down").addEventListener("click", (e) => {
+        board.scaleDown(e);
     });
 
     board.update();
