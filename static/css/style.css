@@ -6,6 +6,18 @@
     --scale: 1.0;
 }
 
+@font-face {
+  font-family: "Minecraft";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    local("Minecraft "),
+    local("Minecraft"),
+    url("../fonts/minecraft.woff2") format("woff2"),
+    url("../fonts/minecraft.woff") format("woff");
+}
+
 body {
     background: #202020;
 }
@@ -297,7 +309,7 @@ body {
 body, html {
     height: 100vh;
     width: 100vw;
-    font-family: sans-serif;
+    font-family: "Minecraft";
 }
 
 .white {
@@ -364,15 +376,25 @@ body, html {
     background-color: rgb(21, 21, 23);
 }
 
+.control-block {
+    width: max-content;
+    color: white;
+    padding: 7px;
+    margin: 0px 5px;
+    align-items: center;
+    text-align: center;
+}
+
 .resize-panel,
 .scale-panel {
-    border: solid 2px black;
+    align-items: center;
+    width: 100%;
     margin: 0px;
     padding: 5px;
-    width: max-content;
     height: max-content;
+    border: solid 2px black;
     border-radius: 10%;
-    margin: 5px;
+    margin-top: 12px;
 }
 
 .scale-panel {
