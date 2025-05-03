@@ -160,6 +160,7 @@ class Board {
         this.selectedBlock = null;
         this.selectedPattern = null;
         this.bannerPlacing = false;
+        this.bannerDeleting = false; 
         this.selectedColor = null;
         this.gui = {};
         this.scale = 1;
@@ -194,6 +195,7 @@ class Board {
                     this.selectedPattern.classList.remove('select');
                     this.selectedPattern = null;
                     this.bannerPlacing = false;
+                    this.bannerDeleting = false;
                 }
                 this.bannerPlacing = button.id === 'bannerBase';
                 button.classList.add('select');
@@ -203,7 +205,7 @@ class Board {
         const x = PatternType[type] * -40;
         const y = Color.black * -78;
         const pattern = Object.assign(document.createElement('div'), {
-            'className': 'pattern',
+            'className': `pattern`,
             'style': `background-position: ${x}px ${y}px`,
         });
         const shadow = Object.assign(document.createElement('div'), {
@@ -214,9 +216,37 @@ class Board {
         return button;
     }
 
+    createDeleteBannerButton() {
+        const button = Object.assign(document.createElement('div'), {
+            'className': `pattern-button`,
+            'onclick': () => {
+                if (this.selectedPattern) {
+                    this.selectedPattern.classList.remove('select');
+                    this.selectedPattern = null;
+                    this.bannerPlacing = false;
+                    this.bannerDeleting = false;
+                }
+                this.selectedPattern = button;
+                this.bannerDeleting = true; 
+                this.bannerPlacing = false;
+                button.classList.add('select')
+            } 
+        });
+
+        const barrier = Object.assign(document.createElement('div'), {
+            'className': `barrier`,
+        });
+        button.appendChild(barrier);
+
+        return button;
+    }
+
     createPatternButtons() {
         this.gui.patterns = [];
         const patterns_buttons = document.getElementById("patterns");
+
+        patterns_buttons.appendChild(this.createDeleteBannerButton());
+
         for (let type of PatternType.names) {
             const button = this.createPatternButton(type);
             if (type === 'bannerBase') {
@@ -354,23 +384,13 @@ class Board {
                         block.banner =  new Banner(BannerColor[Color[this.selectedColor.id]]);
                     }
 
-                    if (this.selectedPattern !== null) {
+                    if (this.bannerDeleting) {
+                        block.banner = null;
+                    } else if (this.selectedPattern !== null) {
                         block.banner.addPattern(PatternType[this.selectedPattern.id], Color[this.selectedColor.id]);
                     }
+
                     this.update();
-                    return;
-
-                    this.selectedBlock = block;
-
-                    if (block.selected === false) return;
-
-                    document.getElementById("add-banner").onclick = () => {
-                        block.addBanner(BannerColor[Color.white])
-                    };
-                    document.getElementById("remove-banner").onclick = () => {
-                        block.banner = null;
-                        block.update();
-                    };
                 });
                 blocksRow.appendChild(blocksColumn);
             }

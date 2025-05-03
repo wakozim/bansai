@@ -135,6 +135,7 @@ body {
     overflow-x: auto;
     width: 100%;
     border-bottom: solid 10px black;
+    align-items: center;
 }
 
 .controls {
@@ -149,26 +150,14 @@ body {
 }
 
 .pattern-button {
-    width: 40px;
-    height: 78px;
+    width: max-content;
+    height: max-content;
     cursor: pointer;
     margin: 0px 3px;
     position: relative;
     display: flex;
-}
-
-.pattern-button::after {
-    content: '';
-    display: flex;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    box-sizing: border-box;
-    top: 0px;
-    left: 0px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
+    align-items: center;
+    background-color: #4c4c4c;
 }
 
 .select::after,
@@ -198,6 +187,14 @@ body {
     height: 78px;
     background: url('../images/banners.png');
     background-size: 1682px 1248px;
+}
+
+.barrier {
+    width: 40px;
+    height: 40px;
+    background-image: url("../images/barrier.png");
+    background-size: 40px 40px;
+    background-repeat: 0;
 }
 
 .pattern-shadow {
