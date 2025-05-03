@@ -326,6 +326,12 @@ class Board {
         this.update();
     }
 
+    scaleReset(e) {
+        this.scale = 1.0;
+        document.documentElement.style.setProperty('--scale', this.scale);
+        this.update();
+    }
+
     update() {
         this.blocksDiv.replaceChildren();
         this.asHtml().forEach((x) => {this.blocksDiv.appendChild(x)});
@@ -418,6 +424,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("scale-down").addEventListener("click", (e) => {
         board.scaleDown(e);
     });
+
+    document.getElementById("scale-reset").addEventListener("click", (e) => {
+        board.scaleReset(e);
+    });
+
 
     board.update();
 });

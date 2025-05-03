@@ -404,12 +404,14 @@ body, html {
 
 .resize-row {
     margin: 0px;
+    width: 100%;
 }
 
 .size-button,
 .scale-button {
-    width: 25px;
-    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    font-weight: bold;
     color: white;
     background-color: green;
     padding: 5px;
