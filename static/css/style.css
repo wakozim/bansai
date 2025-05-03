@@ -18,6 +18,10 @@
     url("../fonts/minecraft.woff") format("woff");
 }
 
+.mc-font {
+    font-family: "Minecraft";
+}
+
 body {
     background: #202020;
 }
@@ -377,50 +381,45 @@ body, html {
 }
 
 .control-block {
-    width: max-content;
-    color: white;
-    padding: 7px;
-    margin: 0px 5px;
-    align-items: center;
-    text-align: center;
-}
-
-.resize-panel,
-.scale-panel {
-    align-items: center;
-    width: 100%;
-    margin: 0px;
+    margin: 5px 15px;
     padding: 5px;
-    height: max-content;
-    border: solid 2px black;
-    border-radius: 10%;
-    margin-top: 12px;
+    width: max-content;
+    align-items: center;
+    display: flex;
+    width: max-content;
+    flex-direction: column;
+    color: white;
 }
 
-.scale-panel {
+.control-label {
+    width: 100%;
+    text-align: left;
+}
+
+.control-panel {
     display: flex;
     flex-direction: column;
+    border: solid 2px gray;
+    padding: 5px;
+    gap: 8px;
+    margin-top: 7px;
 }
 
-.resize-row {
-    margin: 0px;
+.control-row {
+    display: flex;
     width: 100%;
+    gap: 8px;
 }
 
-.size-button,
-.scale-button {
-    min-width: 25px;
-    min-height: 25px;
-    font-weight: bold;
+.control-button {
+    width: 100%;
+    min-width: 30px;
+    min-height: 30px;
     color: white;
     background-color: green;
     padding: 5px;
     border: none;
     cursor: pointer;
-    margin: 5px;
-    border-radius: 20%;
-}
-
-.size-button:hover {
-    background-color: red;
+    border-radius: 3px;
+    font-size: 14px;
 }
