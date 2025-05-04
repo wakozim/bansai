@@ -186,6 +186,15 @@ class Board {
         this.createColorButtons();
     }
 
+    clear(e) {
+        for (let y = 0; y < this.rows; ++y) {
+            for (let x = 0; x < this.cols; ++x) {
+                this.blocks[y][x].banner = null;
+            }
+        }
+        this.update();
+    }
+
     createPatternButton(type) {
         const button = Object.assign(document.createElement('div'), {
             'id': type,
@@ -449,6 +458,9 @@ document.addEventListener("DOMContentLoaded", () => {
         board.scaleReset(e);
     });
 
+    document.getElementById("board-clear").addEventListener("click", (e) => {
+        board.clear(e);
+    });
 
     board.update();
 });
